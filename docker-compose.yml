@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  task-api:
+    container_name: task-api
+    restart: always
+    build: .
+    volumes:
+      - ./src:/home/node/app/src
+      - ./nodemon.json:/home/node/app/nodemon.json
+    depends_on:
+      - postgres
+    expose:
+      - ${PORT}
+    ports:
+      - ${PORT}:${PORT}
+    command: npm run dev
+    links:
+      - postgres
+    networks:
+      - postgres
+    env_file:
+      - .docker.env
+  
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - data:/data/db
+      - ./src/db/init.sql:/docker-entrypoint-initdb.d/dbinit.sql
+      - ./db_scripts/01-init.sh:/docker-entrypoint-initdb.d/01-init.sh
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    networks:
+      - postgres
+
+volumes: 
+ data: {}
+
+networks:
+  postgres:
+    driver: bridge
