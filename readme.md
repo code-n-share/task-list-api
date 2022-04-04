@@ -3,6 +3,7 @@
 
 # run api & postgres in docker
 - docker-compose up
+
   **which will run task api at localhost:5001**
 
 
