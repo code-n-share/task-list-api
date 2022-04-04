@@ -11,12 +11,19 @@
 
 ### Model:
 Task {
-       Id,
-       Title,
-       Status,
-       CreatedAt,
-       UpdatedAt,
-    }
+     Id,
+     Title,
+     Status,
+     CreatedAt,
+     UpdatedAt,
+}
+
+enum Status {
+    'CREATED',
+    'COMPLETED',
+    'INPROGRESS',
+    'CANCELLED'
+}
 
 ### Endpoints:
 1- GetAllTasks
